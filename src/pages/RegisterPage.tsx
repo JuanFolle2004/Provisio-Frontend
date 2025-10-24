@@ -5,14 +5,15 @@ import { Card, CardHeader, CardContent, CardTitle } from "../components/ui/Card"
 import Button from "../components/ui/Button";
 import Input from "../components/ui/Input";
 
-export default function LoginPage() {
+export default function RegisterPage() {
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
   const navigate = useNavigate();
 
-  // 👇 tipo explícito para el evento del form
+  // 👇 Tipo explícito para el submit del formulario
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    // registro simulado
     if (email && pass) navigate("/dashboard");
   };
 
@@ -21,11 +22,11 @@ export default function LoginPage() {
       <div className="min-h-[60vh] grid place-items-center">
         <Card className="w-full max-w-md">
           <CardHeader>
-            <CardTitle className="text-center text-2xl">Ingresar</CardTitle>
+            <CardTitle className="text-center text-2xl">Crear cuenta</CardTitle>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-3">
-              {/* 👇 tipos explícitos para los eventos de los inputs */}
+              {/* 👇 Tipado explícito para eventos onChange */}
               <Input
                 type="email"
                 placeholder="Email"
@@ -45,12 +46,12 @@ export default function LoginPage() {
                 required
               />
               <Button className="w-full" type="submit">
-                Entrar
+                Registrarme
               </Button>
               <div className="text-center text-xs text-gray-500 dark:text-zinc-400">
-                ¿No tenés cuenta?{" "}
-                <NavLink className="text-indigo-600" to="/register">
-                  Crear una
+                ¿Ya tenés cuenta?{" "}
+                <NavLink className="text-indigo-600" to="/login">
+                  Ingresar
                 </NavLink>
               </div>
             </form>

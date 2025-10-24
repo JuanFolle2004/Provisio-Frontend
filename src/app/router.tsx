@@ -1,25 +1,26 @@
 import { createBrowserRouter } from "react-router-dom";
-import LoginPage from "@/pages/LoginPage";
-import DashboardLayout from "@/layouts/DashboardLayout";
-import { ProtectedRoute } from "@/app/ProtectedRoute";
-
-import DashboardPage from "@/pages/DashboardPage";
-import UsersPage from "@/pages/UserPage";
-import GroupsPage from "@/pages/Groups.Page";
-import AssignmentsPage from "@/pages/AssignmentsPage";
-import ProductsPage from "@/pages/ProductsPage";
+import HomePage from "../pages/HomePage";
+import DashboardPage from "../pages/DashboardPage";
+import ListsPage from "../pages/ListsPage";
+import GroupsPage from "../pages/Groups.Page";
+import ProductsPage from "../pages/ProductsPage";
+import CartPage from "../pages/CartPage";
+import SettingsPage from "../pages/SettingsPage";
+import ProfilePage from "../pages/ProfilePage";
+import LoginPage from "../pages/LoginPage";
+import RegisterPage from "../pages/RegisterPage";
+import NotFoundPage from "../pages/NotFoundPage";
 
 export const router = createBrowserRouter([
+  { path: "/", element: <HomePage /> },
+  { path: "/dashboard", element: <DashboardPage /> },
+  { path: "/lists", element: <ListsPage /> },
+  { path: "/groups", element: <GroupsPage /> },
+  { path: "/products", element: <ProductsPage /> },
+  { path: "/cart", element: <CartPage /> },
+  { path: "/settings", element: <SettingsPage /> },
+  { path: "/profile", element: <ProfilePage /> },
   { path: "/login", element: <LoginPage /> },
-  {
-    path: "/",
-    element: <ProtectedRoute element={<DashboardLayout />} />,
-    children: [
-      { path: "dashboard", element: <DashboardPage /> },
-      { path: "users", element: <UsersPage /> },
-      { path: "groups", element: <GroupsPage /> },
-      { path: "assignments", element: <AssignmentsPage /> },
-      { path: "products", element: <ProductsPage /> },
-    ],
-  },
+  { path: "/register", element: <RegisterPage /> },
+  { path: "*", element: <NotFoundPage /> },
 ]);
