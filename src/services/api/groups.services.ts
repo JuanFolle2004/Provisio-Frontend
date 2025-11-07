@@ -9,4 +9,8 @@ export const groupsService = {
   // Obtener un grupo por ID
   getGroup: (id: number) =>
     httpClient.get<{ data: Group }>(`/groups/${id}`),
+
+  listGroups: () =>
+    httpClient.get<{ data: Group[] }>(`/groups/}`),
+
 };

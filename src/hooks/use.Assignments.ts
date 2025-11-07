@@ -5,6 +5,7 @@ import type { Group } from '../types/api.types';
 export const useGroups = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [groups, setGroups] = useState<any[]>([]);
 
   const createGroup = async (data: { name: string; due_date: string }) => {
     setLoading(true);
@@ -20,7 +21,25 @@ export const useGroups = () => {
     }
   };
 
-  return { createGroup, loading, error };
+  const getGroups = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await groupsService.listGroups();
+      setGroups(response.data);
+    } catch (err: any) {
+      setError(err.error?.message || 'Failed to fetch groups');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getGroups();
+  }, []);
+
+
+  return { createGroup, groups, loading, error, refresh: getGroups };
 };
 
 export const useGroup = (id: number) => {

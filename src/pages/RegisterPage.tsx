@@ -4,18 +4,28 @@ import { DashboardLayout } from "../layouts/DashboardLayout";
 import { Card, CardHeader, CardContent, CardTitle } from "../components/ui/Card";
 import Button from "../components/ui/Button";
 import Input from "../components/ui/Input";
+import { type SignUpParams, useAuth } from '@/hooks/use.Auth.ts'
 
 export default function RegisterPage() {
-  const [email, setEmail] = useState("");
-  const [pass, setPass] = useState("");
+  const [params, setParams] = useState<SignUpParams>({
+    email_address: '',
+    name: '',
+    password: '',
+    password_confirmation: '',
+    username: '',
+  });
+
   const navigate = useNavigate();
+  const {signUp} = useAuth();
 
   // 👇 Tipo explícito para el submit del formulario
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
     // registro simulado
-    if (email && pass) navigate("/dashboard");
-  };
+    await signUp(params).then(() => {
+      navigate('/dashboard')
+    })
+  }
 
   return (
     <DashboardLayout>
@@ -28,21 +38,40 @@ export default function RegisterPage() {
             <form onSubmit={handleSubmit} className="space-y-3">
               {/* 👇 Tipado explícito para eventos onChange */}
               <Input
+                type="name"
+                placeholder="Name"
+                value={params.name}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>{
+                  setParams({...params,name:e.target.value});
+                }}
+                required
+              />
+              <Input
+                type="username"
+                placeholder="Username"
+                value={params.username}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>{
+                  setParams({...params,username:e.target.value});
+                }}
+                required
+              />
+              <Input
                 type="email"
                 placeholder="Email"
-                value={email}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  setEmail(e.target.value)
-                }
+                value={params.email_address}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>{
+                  setParams({...params,email_address:e.target.value});
+                }}
                 required
               />
               <Input
                 type="password"
                 placeholder="Contraseña"
-                value={pass}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  setPass(e.target.value)
-                }
+                value={params.password}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>{
+                  setParams({...params,password:e.target.value, password_confirmation:e.target.value});
+
+                }}
                 required
               />
               <Button className="w-full" type="submit">

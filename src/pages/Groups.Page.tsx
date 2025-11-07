@@ -3,6 +3,7 @@ import { Card, CardHeader, CardContent, CardTitle } from "../components/ui/Card"
 import Button from "../components/ui/Button";
 import Badge from "../components/ui/Badge";
 import { Edit3, ListChecks, Users } from "lucide-react";
+import { useGroups } from '@/hooks/use.Assignments.ts'
 
 const groups = [
   { id: 1, name: "Casa Pocitos", members: 5, role: "Admin" },
@@ -11,6 +12,9 @@ const groups = [
 ];
 
 export default function GroupsPage() {
+  const {groups}= useGroups()
+
+
   return (
     <DashboardLayout>
       <div className="space-y-6">

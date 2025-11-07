@@ -4,17 +4,20 @@ import { DashboardLayout } from "../layouts/DashboardLayout";
 import { Card, CardHeader, CardContent, CardTitle } from "../components/ui/Card";
 import Button from "../components/ui/Button";
 import Input from "../components/ui/Input";
+import { useAuth } from '@/hooks/use.Auth.ts'
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
   const navigate = useNavigate();
 
+  const {login} = useAuth();
   // 👇 tipo explícito para el evento del form
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+   console.log("LOGinn");
     e.preventDefault();
-    if (email && pass) navigate("/dashboard");
-  };
+    await login(email, pass).then(() => { navigate('/dashboard'); })
+  }
 
   return (
     <DashboardLayout>
@@ -25,13 +28,12 @@ export default function LoginPage() {
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-3">
-              {/* 👇 tipos explícitos para los eventos de los inputs */}
               <Input
                 type="email"
                 placeholder="Email"
                 value={email}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  setEmail(e.target.value)
+                  { setEmail(e.target.value); }
                 }
                 required
               />
@@ -40,7 +42,7 @@ export default function LoginPage() {
                 placeholder="Contraseña"
                 value={pass}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  setPass(e.target.value)
+                  { setPass(e.target.value); }
                 }
                 required
               />
