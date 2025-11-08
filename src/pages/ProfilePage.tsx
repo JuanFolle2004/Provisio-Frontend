@@ -6,6 +6,7 @@ import {getAuthToken} from "@/config/api.ts";
 import {useNavigate} from "react-router-dom";
 import {useAuth} from "@/hooks/use.Auth.ts";
 import {useEffect} from "react";
+import {useMe} from "@/hooks/use.Me.ts";
 
 export function ProfilePage() {
 
@@ -24,6 +25,7 @@ export function ProfilePage() {
         logout();
         navigate('/');
     }
+    const {me} = useMe();
 
     return (
         <DashboardLayout>
@@ -33,12 +35,12 @@ export function ProfilePage() {
                     <Card>
                         <CardContent className="flex items-center gap-4 p-5">
                             <div
-                                className="h-12 w-12 rounded-full bg-indigo-600 text-white grid place-items-center font-bold">
-                                F
+                                className="grid h-12 w-12 place-items-center rounded-full bg-indigo-600 font-bold text-white">
+                                <p>{me?.name[0]}</p>
                             </div>
                             <div className="flex-1">
-                                <p className="font-semibold">Federica</p>
-                                <p className="text-xs text-gray-500 dark:text-zinc-400">fede@example.com</p>
+                                <p className="font-semibold">{me?.name}</p>
+                                <p className="text-xs text-gray-500 dark:text-zinc-400">{me?.email}</p>
                             </div>
                             <Button variant="outline">
                                 <Edit3 size={16}/> Editar

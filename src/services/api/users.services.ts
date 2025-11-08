@@ -30,6 +30,8 @@ export const usersService = {
   // Obtener un usuario por ID
   getUser: (id: number) => httpClient.get<{ data: User }>(`/users/${id}`),
 
+  getMe: () => httpClient.get<{ data: User }>(`/me`),
+
   // Actualizar datos de usuario
   updateUser: (
     id: number,
