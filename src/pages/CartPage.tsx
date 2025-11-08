@@ -1,6 +1,9 @@
 import { DashboardLayout } from "../layouts/DashboardLayout";
 import { Card, CardContent } from "../components/ui/Card";
 import Button from "../components/ui/Button";
+import { getAuthToken } from '@/config/api.ts'
+import { useNavigate } from 'react-router-dom'
+import { useEffect } from 'react'
 
 const items = [
   { id: 1, name: "Yerba Canarias 1kg", qty: 1, price: 365 },
@@ -9,6 +12,13 @@ const items = [
 
 export default function CartPage() {
   const total = items.reduce((a, i) => a + i.qty * i.price, 0);
+  const token = getAuthToken();
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!token) {
+      navigate('/login');
+    }
+  }, [token, navigate]);
 
   return (
     <DashboardLayout>

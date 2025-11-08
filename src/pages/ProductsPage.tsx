@@ -2,6 +2,9 @@ import { DashboardLayout } from "../layouts/DashboardLayout";
 import { Card, CardHeader, CardContent, CardTitle } from "../components/ui/Card";
 import Button from "../components/ui/Button";
 import { ShoppingCart } from "lucide-react";
+import { getAuthToken } from '@/config/api.ts'
+import { useNavigate } from 'react-router-dom'
+import { useEffect } from 'react'
 
 const products = [
   { id: 1, name: "Yerba Canarias 1kg", price: 365, store: "Tienda Inglesa" },
@@ -11,7 +14,16 @@ const products = [
   { id: 5, name: "Queso Colonia 1kg", price: 699, store: "Góndola" },
 ];
 
-export default function ProductsPage() {
+export function ProductsPage() {
+
+  const token = getAuthToken();
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!token) {
+      navigate('/login');
+    }
+  }, [token, navigate]);
+
   return (
     <DashboardLayout>
       <div className="space-y-6">

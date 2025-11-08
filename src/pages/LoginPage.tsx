@@ -12,7 +12,6 @@ export default function LoginPage() {
   const navigate = useNavigate();
 
   const {login} = useAuth();
-  // 👇 tipo explícito para el evento del form
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
    console.log("LOGinn");
     e.preventDefault();

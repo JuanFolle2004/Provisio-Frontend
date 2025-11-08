@@ -4,18 +4,22 @@ import Button from "../components/ui/Button";
 import Badge from "../components/ui/Badge";
 import { Edit3, ListChecks, Users } from "lucide-react";
 import { useGroups } from '@/hooks/use.Assignments.ts'
-
-const groups = [
-  { id: 1, name: "Casa Pocitos", members: 5, role: "Admin" },
-  { id: 2, name: "Apto 804", members: 3, role: "Miembro" },
-  { id: 3, name: "Halcones", members: 12, role: "Miembro" },
-];
+import {getAuthToken} from "@/config/api.ts";
+import {useNavigate} from "react-router-dom";
+import { useEffect } from 'react'
 
 export default function GroupsPage() {
+
+    const token = getAuthToken();
+    const navigate = useNavigate();
+    useEffect(() => {
+      if (!token) {
+        navigate('/login');
+      }
+    }, [token, navigate]);
+
   const {groups}= useGroups()
-
-
-  return (
+    return (
     <DashboardLayout>
       <div className="space-y-6">
         <div className="flex items-center justify-between">

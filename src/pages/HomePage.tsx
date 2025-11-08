@@ -1,8 +1,20 @@
 import { DashboardLayout } from "../layouts/DashboardLayout";
 import Button from "../components/ui/Button";
 import { UserPlus, LayoutDashboard } from "lucide-react";
+import { getAuthToken } from '@/config/api.ts'
+import { useNavigate } from 'react-router-dom'
+import { useEffect } from 'react'
 
 export default function HomePage() {
+
+  const token = getAuthToken();
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!token) {
+      navigate('/login');
+    }
+  }, [token, navigate]);
+
   return (
     <DashboardLayout>
       <section className="grid lg:grid-cols-2 gap-8 items-center">

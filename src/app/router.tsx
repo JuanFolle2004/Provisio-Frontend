@@ -3,11 +3,11 @@ import HomePage from "../pages/HomePage";
 import DashboardPage from "../pages/DashboardPage";
 import ListsPage from "../pages/ListsPage";
 import GroupsPage from "../pages/Groups.Page";
-import ProductsPage from "../pages/ProductsPage";
-import CartPage from "../pages/CartPage";
+import { ProductsPage } from '../pages/ProductsPage'
+import CartPage from '../pages/CartPage'
 import SettingsPage from "../pages/SettingsPage";
-import ProfilePage from "../pages/ProfilePage";
-import LoginPage from "../pages/LoginPage";
+import { ProfilePage } from '../pages/ProfilePage'
+import LoginPage from '../pages/LoginPage'
 import RegisterPage from "../pages/RegisterPage";
 import NotFoundPage from "../pages/NotFoundPage";
 

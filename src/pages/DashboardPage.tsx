@@ -2,6 +2,9 @@ import { DashboardLayout } from "../layouts/DashboardLayout";
 import { Card, CardHeader, CardContent, CardTitle } from "../components/ui/Card";
 import { CreditCard, Package, Tag, Users } from "lucide-react";
 import { ResponsiveContainer, LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid } from "recharts";
+import { getAuthToken } from '@/config/api.ts'
+import { useNavigate } from 'react-router-dom'
+import { useEffect } from 'react'
 
 const mockSpend = [
   { month: "May", spend: 320 },
@@ -32,6 +35,15 @@ function KPI({ label, value, icon: Icon, trend, color }: any) {
 }
 
 export default function DashboardPage() {
+  const token = getAuthToken();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!token) {
+      navigate('/login');
+    }
+  }, [token, navigate]);
+
   return (
     <DashboardLayout>
       <div className="space-y-6">

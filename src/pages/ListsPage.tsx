@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from 'react'
 import { DashboardLayout } from "../layouts/DashboardLayout";
 import { Card, CardHeader, CardContent, CardTitle } from "../components/ui/Card";
 import Button from "../components/ui/Button";
 import Input from "../components/ui/Input";
 import { Plus, Trash2 } from "lucide-react";
+import { getAuthToken } from '@/config/api.ts'
+import { useNavigate } from 'react-router-dom'
 
 interface Item {
   id: number;
@@ -13,6 +15,16 @@ interface Item {
 }
 
 export default function ListsPage() {
+
+  const token = getAuthToken();
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!token) {
+      navigate('/login');
+    }
+  }, [token, navigate]);
+
+
   const [items, setItems] = useState<Item[]>([
     { id: 1, name: "Leche descremada 1L", qty: 6, done: false },
     { id: 2, name: "Papel higiénico x12", qty: 1, done: true },

@@ -58,7 +58,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
       </header>
 
       {/* CONTENIDO PRINCIPAL */}
-      <div className="mx-auto max-w-7xl px-4 md:px-6 grid grid-cols-1 md:grid-cols-[260px_1fr] gap-6 py-6">
+      <div className="mx-auto max-w-7xl px-4 md:px-6 grid grid-cols-1 md:grid-cols-[260px_1fr] gap-6 py-6 lg:mx-0">
         {/* SIDEBAR */}
         <aside className="hidden md:block">
           <nav className="sticky top-[4.25rem] space-y-1">

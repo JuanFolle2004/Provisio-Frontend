@@ -11,6 +11,6 @@ export const groupsService = {
     httpClient.get<{ data: Group }>(`/groups/${id}`),
 
   listGroups: () =>
-    httpClient.get<{ data: Group[] }>(`/groups/}`),
+    httpClient.get<{ data: Group[] }>(`/groups`),
 
 };

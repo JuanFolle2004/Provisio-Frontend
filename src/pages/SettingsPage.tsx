@@ -1,8 +1,19 @@
 import { DashboardLayout } from "../layouts/DashboardLayout";
 import { Card, CardHeader, CardContent, CardTitle } from "../components/ui/Card";
 import Button from "../components/ui/Button";
+import { getAuthToken } from '@/config/api.ts'
+import { useNavigate } from 'react-router-dom'
+import { useEffect } from 'react'
 
 export default function SettingsPage() {
+  const token = getAuthToken();
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!token) {
+      navigate('/login');
+    }
+  }, [token, navigate]);
+
   return (
     <DashboardLayout>
       <div className="space-y-6">
