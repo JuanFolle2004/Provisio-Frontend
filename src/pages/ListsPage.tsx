@@ -5,7 +5,7 @@ import Button from "../components/ui/Button";
 import Input from "../components/ui/Input";
 import { Plus, Trash2 } from "lucide-react";
 import { getAuthToken } from '@/config/api.ts'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate , useParams } from 'react-router-dom'
 
 interface Item {
   id: number;
@@ -16,8 +16,10 @@ interface Item {
 
 export default function ListsPage() {
 
+  const { id } = useParams(); // <-- id del grupo desde la URL
   const token = getAuthToken();
   const navigate = useNavigate();
+
   useEffect(() => {
     if (!token) {
       navigate('/login');

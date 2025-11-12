@@ -6,7 +6,6 @@ import SidebarLink from "../components/SidebarLink"; // ✅ IMPORT DEFAULT
 import {
   Home,
   LayoutDashboard,
-  ListChecks,
   Users,
   Package,
   ShoppingCart,
@@ -21,7 +20,6 @@ import {
 const sidebarLinks = [
   { to: "/", icon: <Home size={16} />, label: "Home" },
   { to: "/dashboard", icon: <LayoutDashboard size={16} />, label: "Dashboard" },
-  { to: "/lists", icon: <ListChecks size={16} />, label: "Listas" },
   { to: "/groups", icon: <Users size={16} />, label: "Grupos" },
   { to: "/products", icon: <Package size={16} />, label: "Productos" },
   { to: "/cart", icon: <ShoppingCart size={16} />, label: "Carrito" },
