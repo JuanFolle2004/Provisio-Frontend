@@ -1,13 +1,9 @@
 import { Navigate } from "react-router-dom";
 import { getAuthToken } from "@/config/api";
-import type { JSX } from "react";
+import type { PropsWithChildren } from 'react'
 
 
-interface ProtectedRouteProps {
-  element: JSX.Element;
-}
-
-export const ProtectedRoute = ({ element }: ProtectedRouteProps) => {
+export const ProtectedRoute = ({ children }: PropsWithChildren) => {
   const token = getAuthToken();
-  return token ? element : <Navigate to="/login" replace />;
+  return token ? { children } : <Navigate to="/login" replace />
 };

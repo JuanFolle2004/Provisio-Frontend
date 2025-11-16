@@ -7,8 +7,15 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, './src'),  // 👈 agregá el "./"
+      '@': path.resolve(__dirname, './src'),
     },
   },
+  server: {
+    port: 5173, // ✅ Puerto de Vite (diferente a Reverb)
+    hmr: {
+      port: 5174, // ✅ Puerto de HMR (diferente a Vite y Reverb)
+      host: 'localhost',
+      protocol: 'ws'
+    }
+  }
 })
-

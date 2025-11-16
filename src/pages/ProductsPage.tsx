@@ -5,14 +5,7 @@ import { ShoppingCart } from "lucide-react";
 import { getAuthToken } from '@/config/api.ts'
 import { useNavigate } from 'react-router-dom'
 import { useEffect } from 'react'
-
-const products = [
-  { id: 1, name: "Yerba Canarias 1kg", price: 365, store: "Tienda Inglesa" },
-  { id: 2, name: "Leche Conaprole 1L", price: 49, store: "Disco" },
-  { id: 3, name: "Arroz BluePatna 5kg", price: 289, store: "Devoto" },
-  { id: 4, name: "Huevos docena", price: 145, store: "Hiper" },
-  { id: 5, name: "Queso Colonia 1kg", price: 699, store: "Góndola" },
-];
+import { useAssignments } from '@/hooks/use.Assignments.ts'
 
 export function ProductsPage() {
 
@@ -23,6 +16,9 @@ export function ProductsPage() {
       navigate('/login');
     }
   }, [token, navigate]);
+
+  const {assignments} = useAssignments();
+
 
   return (
     <DashboardLayout>
@@ -36,15 +32,15 @@ export function ProductsPage() {
         </div>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {products.map((p) => (
+          {assignments.map((p) => (
             <Card key={p.id}>
               <CardHeader>
-                <CardTitle>{p.name}</CardTitle>
+                <CardTitle>{p.product_name}</CardTitle>
               </CardHeader>
               <CardContent className="flex items-center justify-between">
                 <div>
-                  <p className="font-semibold text-lg">$ {p.price}</p>
-                  <p className="text-xs text-gray-500">{p.store}</p>
+                  <p className="font-semibold text-lg"> Bought: {p.bought}</p>
+                  <p className="text-xs text-gray-700"> Assigned: {p.amount}</p>
                 </div>
                 <Button>
                   <ShoppingCart size={16} /> Añadir

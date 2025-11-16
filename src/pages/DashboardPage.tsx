@@ -4,7 +4,9 @@ import { CreditCard, Package, Tag, Users } from "lucide-react";
 import { ResponsiveContainer, LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid } from "recharts";
 import { getAuthToken } from '@/config/api.ts'
 import { useNavigate } from 'react-router-dom'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
+import { useEcho, useEchoPublic } from '@laravel/echo-react'
+import type { Message } from '@/services/api/message.service.ts'
 
 const mockSpend = [
   { month: "May", spend: 320 },
@@ -47,13 +49,36 @@ export default function DashboardPage() {
   return (
     <DashboardLayout>
       <div className="space-y-6">
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <KPI label="Gasto del mes" value="$565" icon={CreditCard} trend="↑ 8% vs mes pasado" color="text-emerald-600" />
-          <KPI label="Ítems comprados" value="61" icon={Package} trend="↑ 4% vs mes pasado" color="text-emerald-600" />
-          <KPI label="Ahorro total" value="12%" icon={Tag} trend="↑ 12% vs mes pasado" color="text-emerald-600" />
-          <KPI label="Grupos activos" value="3" icon={Users} trend="– estable" color="text-gray-400" />
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <KPI
+            label="Gasto del mes"
+            value="$565"
+            icon={CreditCard}
+            trend="↑ 8% vs mes pasado"
+            color="text-emerald-600"
+          />
+          <KPI
+            label="Ítems comprados"
+            value="61"
+            icon={Package}
+            trend="↑ 4% vs mes pasado"
+            color="text-emerald-600"
+          />
+          <KPI
+            label="Ahorro total"
+            value="12%"
+            icon={Tag}
+            trend="↑ 12% vs mes pasado"
+            color="text-emerald-600"
+          />
+          <KPI
+            label="Grupos activos"
+            value="3"
+            icon={Users}
+            trend="– estable"
+            color="text-gray-400"
+          />
         </div>
-
         <Card>
           <CardHeader>
             <CardTitle>Evolución de gasto</CardTitle>
@@ -66,7 +91,13 @@ export default function DashboardPage() {
                   <XAxis dataKey="month" tickLine={false} axisLine={false} />
                   <YAxis tickLine={false} axisLine={false} />
                   <Tooltip />
-                  <Line type="monotone" dataKey="spend" stroke="#6366f1" strokeWidth={2} dot={false} />
+                  <Line
+                    type="monotone"
+                    dataKey="spend"
+                    stroke="#6366f1"
+                    strokeWidth={2}
+                    dot={false}
+                  />
                 </LineChart>
               </ResponsiveContainer>
             </div>
@@ -74,5 +105,5 @@ export default function DashboardPage() {
         </Card>
       </div>
     </DashboardLayout>
-  );
+  )
 }

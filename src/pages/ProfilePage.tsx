@@ -25,7 +25,12 @@ export function ProfilePage() {
         logout();
         navigate('/');
     }
-    const {me} = useMe();
+    const {me,fetchMe} = useMe();
+
+    useEffect(() => {
+        fetchMe();
+    },[token])
+
 
     return (
         <DashboardLayout>

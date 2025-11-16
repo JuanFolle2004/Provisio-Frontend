@@ -21,9 +21,7 @@ const sidebarLinks = [
   { to: "/", icon: <Home size={16} />, label: "Home" },
   { to: "/dashboard", icon: <LayoutDashboard size={16} />, label: "Dashboard" },
   { to: "/groups", icon: <Users size={16} />, label: "Grupos" },
-  { to: "/products", icon: <Package size={16} />, label: "Productos" },
-  { to: "/cart", icon: <ShoppingCart size={16} />, label: "Carrito" },
-  { to: "/settings", icon: <Settings size={16} />, label: "Ajustes" },
+  { to: "/products", icon: <Package size={16} />, label: "Asignaciones" },
   { to: "/profile", icon: <User size={16} />, label: "Perfil" },
 ];
 

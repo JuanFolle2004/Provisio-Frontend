@@ -1,6 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react'
 import { groupsService } from '../services/api/groups.services';
-import type { Group } from '../types/api.types';
+import type { Assignment, Group } from '../types/api.types'
+import { assignmentsService } from '@/services/api/assignments.services.ts'
 
 export const useGroups = () => {
   const [loading, setLoading] = useState(false);
@@ -65,4 +66,56 @@ export const useGroup = (id: number) => {
   }, [id]);
 
   return { group, loading, error, refetch: fetchGroup };
+};
+
+export const useAssignments = () => {
+  const [assignments, setAssignments] = useState<Assignment[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const fetchAssignments = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      const res = await assignmentsService.listAssignments();
+      setAssignments(res.data);
+    } catch (err: any) {
+      console.error("Error loading assignments:", err);
+      setError(err?.message || "Failed to load assignments");
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchAssignments();
+  }, []);
+
+  return { assignments, loading, error, refetch: fetchAssignments };
+};
+
+export const useUpdateAssignment = () => {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const updateAssignment = async (
+    assignmentId: number,
+    amount: number,
+    bought: number
+  ) => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      await assignmentsService.updateAssignment(assignmentId, amount, bought);
+    } catch (err: any) {
+      console.error("Error updating:", err);
+      setError(err?.message || "Failed to update assignment");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return { updateAssignment, loading, error };
 };

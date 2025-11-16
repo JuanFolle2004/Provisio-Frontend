@@ -1,5 +1,6 @@
 // src/services/httpClient.ts
-import { API_BASE_URL, getAuthToken } from '../config/api';
+import { API_BASE_URL, getAuthToken, removeAuthToken } from '../config/api';
+import { useAuth } from '@/hooks/use.Auth.ts'
 
 interface ApiError {
   message: string;
@@ -10,6 +11,7 @@ interface ApiError {
 class HttpClient {
   private baseURL: string;
 
+
   constructor(baseURL: string) {
     this.baseURL = baseURL;
   }
@@ -19,7 +21,6 @@ class HttpClient {
     options: RequestInit = {}
   ): Promise<T> {
     const token = getAuthToken();
-
     // Forzamos el tipo a Record<string, string> para evitar error TS7053
     const headers: Record<string, string> = {
       'Content-Type': 'application/json',
@@ -35,6 +36,14 @@ class HttpClient {
       ...options,
       headers,
     });
+
+    if (response.status === 401) {
+      removeAuthToken();
+      // opcional: redirigir al login
+      window.location.href = '/login';
+      // lanzar un error controlado
+      throw { message: 'Unauthorized', status: 401 };
+    }
 
     if (!response.ok) {
       const error: ApiError = await response.json();

@@ -14,7 +14,7 @@ import NotFoundPage from "../pages/NotFoundPage";
 export const router = createBrowserRouter([
   { path: "/", element: <HomePage /> },
   { path: "/dashboard", element: <DashboardPage /> },
-  { path: "/lists", element: <ListsPage /> },
+  { path: "/list/:id", element: <ListsPage />},
   { path: "/groups", element: <GroupsPage /> },
   { path: "/products", element: <ProductsPage /> },
   { path: "/cart", element: <CartPage /> },

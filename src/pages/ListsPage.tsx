@@ -6,6 +6,8 @@ import Input from "../components/ui/Input";
 import { Plus, Trash2 } from "lucide-react";
 import { getAuthToken } from '@/config/api.ts'
 import { useNavigate , useParams } from 'react-router-dom'
+import {useProducts} from "@/hooks/use.Products.ts";
+import type {Product} from "@/types/api.types.ts";
 
 interface Item {
   id: number;
@@ -20,6 +22,8 @@ export default function ListsPage() {
   const token = getAuthToken();
   const navigate = useNavigate();
 
+  const { products, createProducts } = useProducts({groupId:id})
+
   useEffect(() => {
     if (!token) {
       navigate('/login');
@@ -27,24 +31,31 @@ export default function ListsPage() {
   }, [token, navigate]);
 
 
-  const [items, setItems] = useState<Item[]>([
-    { id: 1, name: "Leche descremada 1L", qty: 6, done: false },
-    { id: 2, name: "Papel higiénico x12", qty: 1, done: true },
-  ]);
+  const [newItems, setNewItems] = useState<Product[]>([]);
   const [name, setName] = useState("");
-  const [qty, setQty] = useState(1);
+  const [amount, setAmount] = useState<number>(1);
 
   const addItem = () => {
     if (!name.trim()) return;
-    setItems((prev) => [{ id: Date.now(), name, qty, done: false }, ...prev]);
+    if(allProducts.filter((i) => i.name == name).length > 0) {
+        // toaster o algo
+        return
+    }
+    setNewItems((prev) => [{name, amount, done: false }, ...prev]);
     setName("");
-    setQty(1);
+    setAmount(1);
   };
 
-  const toggleDone = (id: number) =>
-    setItems((prev) => prev.map((i) => (i.id === id ? { ...i, done: !i.done } : i)));
+  const handleSubmit = async () => {
+      await createProducts(newItems)
+      setNewItems([]);
+  }
+  const allProducts = [
+      ...products,
+      ...newItems,
+  ]
 
-  const remove = (id: number) => setItems((prev) => prev.filter((i) => i.id !== id));
+  const remove = (name: string) => setNewItems((prev) => prev.filter((i) => i.name !== name));
 
   return (
     <DashboardLayout>
@@ -53,18 +64,17 @@ export default function ListsPage() {
           <CardHeader>
             <CardTitle>Agregar producto</CardTitle>
           </CardHeader>
-          <CardContent className="flex flex-col sm:flex-row gap-3">
+          <CardContent className="flex flex-col gap-3 sm:flex-row">
             <Input
               placeholder="Producto..."
               value={name}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setName(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setName(e.target.value); }}
             />
             <Input
               type="number"
-              min={1}
-              value={qty}
+              min={0}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                setQty(Number(e.target.value) || 1)
+                { setAmount(Number(e.target.value) || 1); }
               }
               className="w-24"
             />
@@ -80,21 +90,21 @@ export default function ListsPage() {
           </CardHeader>
           <CardContent>
             <ul className="divide-y divide-gray-200 dark:divide-zinc-800">
-              {items.map((i) => (
-                <li key={i.id} className="py-3 flex items-center gap-3">
+              {allProducts.map((product) => (
+                <li key={product.id ?? product.name} className="flex items-center gap-3 py-3">
                   <input
                     type="checkbox"
-                    checked={i.done}
-                    onChange={() => toggleDone(i.id)}
-                    className="h-4 w-4 accent-indigo-600"
+                    checked={false}
+                    onChange={() => { console.log(product.id ?? product.name); }}
+                    className="size-4 accent-indigo-600"
                   />
                   <div className="flex-1">
-                    <p className={`font-medium ${i.done ? "line-through opacity-60" : ""}`}>
-                      {i.name}
+                    <p className={`font-medium ${false ? "line-through opacity-60" : ""}`}>
+                      {product.name}
                     </p>
-                    <p className="text-xs text-gray-500">x{i.qty}</p>
+                    <p className="text-xs text-gray-500">x{product.amount}</p>
                   </div>
-                  <Button variant="ghost" onClick={() => remove(i.id)}>
+                  <Button variant="ghost" onClick={() => { remove(product.name); }}>
                     <Trash2 size={16} />
                   </Button>
                 </li>
@@ -102,6 +112,12 @@ export default function ListsPage() {
             </ul>
           </CardContent>
         </Card>
+
+          <div className={'w-full flex justify-around '}>
+              <Button onClick={handleSubmit} type="submit">
+              Save
+              </Button>
+          </div>
       </div>
     </DashboardLayout>
   );

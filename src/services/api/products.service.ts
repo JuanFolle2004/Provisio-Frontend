@@ -7,7 +7,10 @@ export const productService = {
   createProducts: (groupId: number, products: { name: string; amount: number }[]) =>
     httpClient.post<{ data: Product[] }>("/products", {
       group_id: groupId,
-      products,
+      products: products.map(p => ({
+        name: p.name,
+        amount: p.amount
+      })),
     }),
 
   // Listar productos

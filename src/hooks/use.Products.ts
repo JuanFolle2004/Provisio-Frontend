@@ -15,7 +15,7 @@ export const useProducts = (params: UseProductsParams) => {
   const [error, setError] = useState<string | null>(null);
 
   const fetchProducts = useCallback(async () => {
-    if (!params?.groupId) return;
+    if (!params.groupId) return;
     setLoading(true);
     setError(null);
 
@@ -33,11 +33,33 @@ export const useProducts = (params: UseProductsParams) => {
     } finally {
       setLoading(false);
     }
-  }, [params?.groupId, params?.is_free, params?.sort, params?.page]);
+  }, [params?.groupId, params.is_free, params?.sort, params?.page]);
+
+  const createProducts = useCallback(async (items: Product[]) => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      console.log(params.groupId);
+      await productService.createProducts(params.groupId, items);
+      await fetchProducts(); // refrescar después de crear
+    } catch (err: any) {
+      console.error("Error creating products:", err);
+      setError(err?.message || "Failed to create products");
+    } finally {
+      setLoading(false);
+    }
+  }, [params.groupId, fetchProducts]);
 
   useEffect(() => {
     fetchProducts();
   }, [fetchProducts]);
 
-  return { products, loading, error, refetch: fetchProducts };
+  return {
+    products,
+    loading,
+    error,
+    refetch: fetchProducts,
+    createProducts, // <-- lo exportamos
+  };
 };

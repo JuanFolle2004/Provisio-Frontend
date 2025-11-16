@@ -27,10 +27,18 @@ export interface Assignment {
 }
 
 export interface Product {
+  id?: number;
   name: string;
   amount: number;
+  assigned?:number
 }
-
+export interface Assignment {
+  id: number;
+  user: string;
+  product_name: string;
+  amount: number;
+  bought: number;
+}
 export interface PaginatedResponse<T> {
   data: T[];
   links: {
