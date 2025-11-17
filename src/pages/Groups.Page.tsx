@@ -98,7 +98,7 @@ export default function GroupsPage() {
             <Card key={g.id}>
               <CardHeader>
                 <CardTitle className="flex items-center justify-between">
-                  {g.name} <Badge>{g.role}</Badge>
+                  {g.name}
                 </CardTitle>
               </CardHeader>
               <CardContent>

@@ -94,254 +94,106 @@ export const Chat = ({
 
   if (!isOpen) return null
 
-    return (
-      <>
-        {/* Overlay oscuro */}
-        <div
-          onClick={onClose}
-          style={{
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            backgroundColor: 'rgba(0, 0, 0, 0.5)',
-            zIndex: 999,
-            animation: 'fadeIn 0.2s ease-out',
-          }}
-        />
+  return (
+    <>
+      {/* Overlay oscuro */}
+      <div
+        onClick={onClose}
+        className="fixed inset-0  !mt-0 bg-black/50 z-[999] animate-fadeIn"
+      />
 
-        {/* Modal */}
-        <div
-          style={{
-            position: 'fixed',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            backgroundColor: 'white',
-            borderRadius: '12px',
-            boxShadow: '0 20px 60px rgba(0, 0, 0, 0.3)',
-            width: '90%',
-            maxWidth: '500px',
-            height: '600px',
-            maxHeight: '90vh',
-            zIndex: 1000,
-            display: 'flex',
-            flexDirection: 'column',
-            overflow: 'hidden',
-            animation: 'slideUp 0.3s ease-out',
-          }}
-        >
-          {/* Header */}
-          <div
-            style={{
-              padding: '1rem 1.5rem',
-              borderBottom: '1px solid #e5e7eb',
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              backgroundColor: '#f9fafb',
-            }}
-          >
-            <div>
-              <h3 style={{ margin: 0, fontSize: '1.25rem', fontWeight: '600' }}>Chat del Grupo</h3>
-              <p style={{ margin: '0.25rem 0 0', fontSize: '0.875rem', color: '#6b7280' }}>
-                {messages.length} mensajes
-              </p>
-            </div>
-            <button
-              onClick={onClose}
-              style={{
-                background: 'none',
-                border: 'none',
-                fontSize: '1.5rem',
-                cursor: 'pointer',
-                color: '#6b7280',
-                padding: '0.5rem',
-                borderRadius: '6px',
-                transition: 'all 0.2s',
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = '#f3f4f6'
-                e.currentTarget.style.color = '#111827'
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = 'transparent'
-                e.currentTarget.style.color = '#6b7280'
-              }}
-            >
-              ✕
-            </button>
+      {/* Modal */}
+      <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-xl shadow-2xl w-[90%] max-w-[500px] h-[600px] max-h-[90vh] z-[1000] flex flex-col overflow-hidden animate-slideUp">
+        {/* Header */}
+        <div className="px-6 py-4 border-b border-gray-200 flex justify-between items-center bg-gray-50">
+          <div>
+            <h3 className="m-0 text-xl font-semibold">Chat del Grupo</h3>
+            <p className="mt-1 text-sm text-gray-500">
+              {messages.length} mensajes
+            </p>
           </div>
-
-          {/* Mensajes */}
-          <div
-            style={{
-              flex: 1,
-              overflowY: 'auto',
-              padding: '1rem',
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '0.75rem',
-              backgroundColor: '#f9fafb',
-              scrollBehavior: 'smooth',
-            }}
+          <button
+            onClick={onClose}
+            className="bg-transparent border-none text-2xl cursor-pointer text-gray-500 p-2 rounded-md transition-all hover:bg-gray-100 hover:text-gray-900"
           >
-            {messages.length === 0 ? (
-              <div
-                style={{
-                  textAlign: 'center',
-                  padding: '3rem 1rem',
-                  color: '#9ca3af',
-                }}
-              >
-                <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>💬</div>
-                <p>No hay mensajes todavía</p>
-                <p style={{ fontSize: '0.875rem' }}>¡Sé el primero en escribir!</p>
-              </div>
-            ) : (
-              <>
-                {messages.map((msg) => {
-                  const isMyMessage = msg.author === me?.username
-
-                  return (
-                    <div
-                      key={msg.id}
-                      style={{
-                        padding: '0.75rem 1rem',
-                        backgroundColor: isMyMessage ? '#dbeafe' : 'white',
-                        borderRadius: '8px',
-                        boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)',
-                        transition: 'transform 0.2s, box-shadow 0.2s',
-                        cursor: 'pointer',
-                        borderLeft: isMyMessage ? '3px solid #3b82f6' : 'none',
-                      }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.transform = 'translateY(-2px)'
-                        e.currentTarget.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.1)'
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.transform = 'translateY(0)'
-                        e.currentTarget.style.boxShadow = '0 1px 3px rgba(0, 0, 0, 0.1)'
-                      }}
-                    >
-                      <div
-                        style={{
-                          display: 'flex',
-                          justifyContent: 'space-between',
-                          alignItems: 'baseline',
-                          marginBottom: '0.25rem',
-                        }}
-                      >
-                        <strong
-                          style={{
-                            color: isMyMessage ? '#1e40af' : '#3b82f6',
-                            fontSize: '0.875rem',
-                          }}
-                        >
-                          {msg.author || 'Usuario'} {isMyMessage && '(Tú)'}
-                        </strong>
-                        <span
-                          style={{
-                            fontSize: '0.75rem',
-                            color: '#9ca3af',
-                          }}
-                        >
-                        {msg.time}
-                      </span>
-                      </div>
-                      <p
-                        style={{
-                          margin: 0,
-                          color: '#374151',
-                          lineHeight: '1.5',
-                        }}
-                      >
-                        {msg.content}
-                      </p>
-                    </div>
-                  )
-                })}
-                <div ref={messagesEndRef} />
-              </>
-            )}
-          </div>
-
-          {/* Input de mensaje */}
-          <form
-            onSubmit={handleSendMessage}
-            style={{
-              padding: '1rem',
-              borderTop: '1px solid #e5e7eb',
-              backgroundColor: 'white',
-              display: 'flex',
-              gap: '0.5rem',
-            }}
-          >
-            <input
-              type="text"
-              value={newMessage}
-              onChange={(e) => setNewMessage(e.target.value)}
-              placeholder={!me?.id ? 'Cargando usuario...' : 'Escribe un mensaje...'}
-              disabled={!me?.id || isSending}
-              style={{
-                flex: 1,
-                padding: '0.75rem 1rem',
-                border: '1px solid #d1d5db',
-                borderRadius: '8px',
-                fontSize: '0.875rem',
-                outline: 'none',
-                transition: 'border-color 0.2s',
-                opacity: !me?.id ? 0.5 : 1,
-              }}
-              onFocus={(e) => (e.currentTarget.style.borderColor = '#3b82f6')}
-              onBlur={(e) => (e.currentTarget.style.borderColor = '#d1d5db')}
-            />
-            <button
-              type="submit"
-              disabled={!newMessage.trim() || !me?.id || isSending}
-              style={{
-                padding: '0.75rem 1.5rem',
-                backgroundColor: newMessage.trim() && me?.id && !isSending ? '#3b82f6' : '#d1d5db',
-                color: 'white',
-                border: 'none',
-                borderRadius: '8px',
-                fontWeight: '500',
-                cursor: newMessage.trim() && me?.id && !isSending ? 'pointer' : 'not-allowed',
-                transition: 'background-color 0.2s, transform 0.1s',
-                fontSize: '0.875rem',
-              }}
-              onMouseEnter={(e) => {
-                if (newMessage.trim() && me?.id && !isSending) {
-                  e.currentTarget.style.backgroundColor = '#2563eb'
-                }
-              }}
-              onMouseLeave={(e) => {
-                if (newMessage.trim() && me?.id && !isSending) {
-                  e.currentTarget.style.backgroundColor = '#3b82f6'
-                }
-              }}
-              onMouseDown={(e) => {
-                if (newMessage.trim() && me?.id && !isSending) {
-                  e.currentTarget.style.transform = 'scale(0.95)'
-                }
-              }}
-              onMouseUp={(e) => {
-                e.currentTarget.style.transform = 'scale(1)'
-              }}
-            >
-              {isSending ? 'Enviando...' : 'Enviar'}
-            </button>
-          </form>
+            ✕
+          </button>
         </div>
 
-        {/* Estilos de animación */}
-        <style>{`
+        {/* Mensajes */}
+        <div className="flex-1 overflow-y-auto p-4 flex flex-col gap-3 bg-gray-50 scroll-smooth">
+          {messages.length === 0 ? (
+            <div className="text-center py-12 px-4 text-gray-400">
+              <div className="text-5xl mb-4">💬</div>
+              <p>No hay mensajes todavía</p>
+              <p className="text-sm">¡Sé el primero en escribir!</p>
+            </div>
+          ) : (
+            <>
+              {messages.map((msg) => {
+                const isMyMessage = msg.author === me?.username
+
+                return (
+                  <div
+                    key={msg.id}
+                    className={`
+                      px-4 py-3 rounded-lg shadow-sm transition-all cursor-pointer
+                      hover:-translate-y-0.5 hover:shadow-md
+                      ${isMyMessage
+                        ? 'bg-blue-100 border-l-[3px] border-blue-500'
+                        : 'bg-white'
+                      }
+                    `}
+                  >
+                    <div className="flex justify-between items-baseline mb-1">
+                      <strong className={`text-sm ${isMyMessage ? 'text-blue-800' : 'text-blue-500'}`}>
+                        {msg.author || 'Usuario'} {isMyMessage && '(Tú)'}
+                      </strong>
+                      <span className="text-xs text-gray-400">
+                        {msg.time}
+                      </span>
+                    </div>
+                    <p className="m-0 text-gray-700 leading-6">
+                      {msg.content}
+                    </p>
+                  </div>
+                )
+              })}
+              <div ref={messagesEndRef} />
+            </>
+          )}
+        </div>
+
+        {/* Input de mensaje */}
+        <form
+          onSubmit={handleSendMessage}
+          className="p-4 border-t border-gray-200 bg-white flex gap-2"
+        >
+          <input
+            type="text"
+            value={newMessage}
+            onChange={(e) => setNewMessage(e.target.value)}
+            placeholder={!me?.id ? 'Cargando usuario...' : 'Escribe un mensaje...'}
+            disabled={!me?.id || isSending}
+            className="flex-1 px-4 py-3 border border-gray-300 rounded-lg text-sm outline-none transition-colors focus:border-blue-500 disabled:opacity-50"
+          />
+          <button
+            type="submit"
+            disabled={!newMessage.trim() || !me?.id || isSending}
+            className="px-6 py-3 bg-blue-500 text-white border-none rounded-lg font-medium text-sm transition-all hover:bg-blue-600 active:scale-95 disabled:bg-gray-300 disabled:cursor-not-allowed"
+          >
+            {isSending ? 'Enviando...' : 'Enviar'}
+          </button>
+        </form>
+      </div>
+
+      {/* Estilos de animación */}
+      <style>{`
         @keyframes fadeIn {
           from { opacity: 0; }
           to { opacity: 1; }
         }
-        
+
         @keyframes slideUp {
           from {
             opacity: 0;
@@ -352,7 +204,15 @@ export const Chat = ({
             transform: translate(-50%, -50%);
           }
         }
+
+        .animate-fadeIn {
+          animation: fadeIn 0.2s ease-out;
+        }
+
+        .animate-slideUp {
+          animation: slideUp 0.3s ease-out;
+        }
       `}</style>
-      </>
-    );
+    </>
+  );
 }
