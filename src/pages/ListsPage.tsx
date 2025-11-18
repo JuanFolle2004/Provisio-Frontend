@@ -133,6 +133,12 @@ export default function ListsPage() {
             <ul className="divide-y divide-gray-200 dark:divide-zinc-800">
               {allProducts.map((product) => (
                 <li key={product.id ?? product.name} className="flex items-center gap-3 py-3">
+                  <div className="flex-1">
+                    <p className="font-medium">
+                      {product.name}
+                    </p>
+                    <p className="text-xs text-gray-500">x{product.amount} {product.assigned ? `(${product.assigned} asignados)` : ''}</p>
+                  </div>
                   <Button
                     variant="outline"
                     onClick={() => handleOpenModal(product)}
@@ -141,12 +147,6 @@ export default function ListsPage() {
                   >
                     Asignarme
                   </Button>
-                  <div className="flex-1">
-                    <p className="font-medium">
-                      {product.name}
-                    </p>
-                    <p className="text-xs text-gray-500">x{product.amount} {product.assigned ? `(${product.assigned} asignados)` : ''}</p>
-                  </div>
                   <Button variant="ghost" onClick={() => { remove(product.name); }}>
                     <Trash2 size={16} />
                   </Button>

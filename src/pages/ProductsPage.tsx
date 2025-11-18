@@ -123,17 +123,33 @@ export function ProductsPage() {
               <Input
                 type="number"
                 min="0"
-                value={formData.amount}
+                value={formData.amount || ''}
+                onFocus={(e) => e.target.select()}
                 onChange={(e) =>
                   setFormData({ ...formData, amount: Number(e.target.value) })
                 }
+                placeholder="0"
                 required
               />
             </div>
             <div>
-              <label className="block text-sm font-medium mb-2">
-                Cantidad Comprada: {formData.bought} / {formData.amount}
-              </label>
+              <div className="flex items-center justify-between mb-2">
+                <label className="block text-sm font-medium">
+                  Cantidad Comprada
+                </label>
+                <Input
+                  type="number"
+                  min="0"
+                  max={formData.amount}
+                  value={formData.bought || ''}
+                  onFocus={(e) => e.target.select()}
+                  onChange={(e) =>
+                    setFormData({ ...formData, bought: Number(e.target.value) || 0 })
+                  }
+                  placeholder="0"
+                  className="w-20 text-center"
+                />
+              </div>
               <input
                 type="range"
                 min="0"
