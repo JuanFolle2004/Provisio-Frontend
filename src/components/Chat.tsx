@@ -41,6 +41,15 @@ export const Chat = ({
     }
   )
 
+  // Cleanup: desconectar cuando se cierra el chat
+  useEffect(() => {
+    return () => {
+      if (!isOpen) {
+        leave()
+      }
+    }
+  }, [isOpen, leave])
+
 
 
   const handleSendMessage = async (e: React.FormEvent) => {

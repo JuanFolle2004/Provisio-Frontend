@@ -119,3 +119,35 @@ export const useUpdateAssignment = () => {
 
   return { updateAssignment, loading, error };
 };
+
+export const useAssignProduct = () => {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const assignProduct = async (
+    productId: number,
+    groupId: number,
+    amount: number,
+    bought: number
+  ) => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      await assignmentsService.assignProduct({
+        product_id: productId,
+        group_id: groupId,
+        amount,
+        bought,
+      });
+    } catch (err: any) {
+      console.error("Error assigning product:", err);
+      setError(err?.message || "Failed to assign product");
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return { assignProduct, loading, error };
+};

@@ -20,6 +20,7 @@ export interface Group {
 }
 
 export interface Assignment {
+  id: number;
   user: string;
   product_name: string;
   amount: number;
@@ -31,13 +32,6 @@ export interface Product {
   name: string;
   amount: number;
   assigned?:number
-}
-export interface Assignment {
-  id: number;
-  user: string;
-  product_name: string;
-  amount: number;
-  bought: number;
 }
 export interface PaginatedResponse<T> {
   data: T[];
